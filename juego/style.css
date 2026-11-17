@@ -179,4 +179,10 @@ body:has(#arena.epilogue) #sound-toggle{background:#ffffff;color:#a44b7c;border-
 #arena.top-dialogue #hud{max-height:100px}
 #arena.top-dialogue #debt-meter{top:48px;width:145px;padding:4px 7px}
 #arena #touch[hidden]{display:none!important}
+#overlay:has(.mission-screen),#overlay:has(.context-screen){position:fixed;inset:68px 8px 12px;z-index:20;overflow:auto;align-items:start;box-sizing:border-box}
+.mission-screen{width:min(100%,650px);margin:auto;display:flex;flex-direction:column;min-height:0}
+.mission-screen #mission-start{position:sticky;bottom:0;flex:none;min-height:48px;margin-top:8px;z-index:2}
+.context-navigation{position:sticky;bottom:0;background:#173baf;padding:10px;z-index:2}
+@media(max-width:650px){.mission-screen>h1{font-size:25px;margin:8px 0 10px}.mission-screen ol{gap:5px;margin:8px 0 12px}.mission-screen li{font-size:13px;line-height:1.4}.mission-cake{padding:9px;margin-bottom:8px}.ingredient-card{padding:6px 3px}.mission-cake h2{margin-bottom:7px}.movement-help{margin-bottom:8px;padding:6px 9px}}
+@media(max-height:520px) and (min-aspect-ratio:13/10){#overlay:has(.mission-screen),#overlay:has(.context-screen){inset:38px 8px 6px}.mission-screen{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}.mission-screen>.eyebrow,.mission-screen>h1,.mission-screen>#mission-start{grid-column:1/-1}.mission-screen>h1{margin:2px 0;font-size:23px}.mission-screen .movement-help{grid-column:1}.mission-screen ol{grid-column:1;margin:0}.mission-screen .mission-cake{grid-column:2;grid-row:3/5;margin:0}.mission-screen #mission-start{position:sticky}}
 @media(max-height:520px) and (min-aspect-ratio:13/10){#arena.top-dialogue #dialogue-dock{margin-top:65px}#arena #bubble{padding:7px 12px}#arena.top-dialogue #debt-meter{top:5px;right:160px}#arena.top-dialogue canvas{height:calc(100dvh - 220px);min-height:160px}}
