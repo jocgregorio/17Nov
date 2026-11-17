@@ -165,6 +165,8 @@ body:has(#arena.epilogue) #sound-toggle{background:#ffffff;color:#a44b7c;border-
 #banner[data-kind="confirmation"]{background:#fffdf8;color:#173baf;border:1px solid #173baf;border-left:4px solid #ed1238;font-weight:700}
 #banner[data-kind="confirmation"] small{color:#34476f;font-weight:400}
 #speech-tethers line{opacity:.55;stroke-width:1.5}
+#world-dialogues .office-modal{left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,calc(100% - 28px));max-height:80%;overflow:auto;animation:none;box-shadow:0 8px 30px #173baf33}
+#world-dialogues .office-modal small{display:block;margin-top:10px;font-size:12px;color:#bd1238}
 #arena #mission{display:none!important}
 
 /* v0.8: filas estables, sin márgenes ficticios ni cambios al hablar. */
