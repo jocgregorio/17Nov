@@ -1,5 +1,0 @@
-const fs=require('fs'),path=require('path');
-const test=path.join(__dirname,'verificar-sin-red.cjs');let code=fs.readFileSync(test,'utf8').replace("'transiciones.js','felicitacion.js']", "'transiciones.js','felicitacion.js','audio.js']");code=code.replace("const h=window.__test,s=", "window.GameAudio.start();assert(window.GameAudio.state().unavailable);const h=window.__test,s=");fs.writeFileSync(test,code);
-const audio=path.resolve(__dirname,'../juego/audio.js');let s=fs.readFileSync(audio,'utf8');s=s.replace("const now=ctx.currentTime;if(current){ramp(current.bus.gain", "const now=ctx.currentTime;fading=fading.filter(track=>{if(track.retire>now)return true;try{track.bus.disconnect();}catch{}return false;});while(fading.length>3){try{fading.shift().bus.disconnect();}catch{}}if(current){ramp(current.bus.gain");fs.writeFileSync(audio,s);
-fs.writeFileSync(path.join(__dirname,'verificar-arcade.cjs'),"// Pruebas locales sin navegador, procesos secundarios ni red.\nrequire('./verificar-sin-red.cjs');\nrequire('./verificar-audio.cjs');\nrequire('./verificar-pages-audio.cjs');\n");
-fs.writeFileSync(path.resolve(__dirname,'../juego/.nojekyll'),'');
