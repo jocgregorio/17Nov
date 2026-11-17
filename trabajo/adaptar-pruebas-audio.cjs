@@ -1,0 +1,11 @@
+const fs=require('fs'),path=require('path');const p=path.join(__dirname,'verificar-sin-red.cjs');let s=fs.readFileSync(p,'utf8');fs.writeFileSync(path.join(__dirname,'antes-audio/verificar-sin-red.cjs'),s);
+s=s.replace('addEventListener(){} setPointerCapture(){}', 'addEventListener(){} showModal(){this.open=true;} close(){this.open=false;} setPointerCapture(){}');
+s=s.replace('const storage=new Map(),window=', "document.body=new Element('body');\nconst storage=new Map(),window=");
+s=s.replace("'transiciones.js']", "'transiciones.js','felicitacion.js']");
+s=s.replace('freshMovingModel,movingCount,', 'freshMovingModel,movingCount,beginParty,showMemories,showLetter,changePhoto,renderParty,updatePhoto,');
+s=s.replace("if(mode==='play')update(dt);", "if(mode==='party')updateParty(dt);else if(mode==='play')update(dt);");
+s=s.replace("assert.equal(s().m.cargo.filter(x=>x.owner!=='Indira'&&x.state==='delivered').length,6);", "assert.equal(s().m.cargo.filter(x=>x.owner!=='Indira'&&x.state==='delivered').length,4);assert.equal(s().m.npcDrops,2);assert(s().m.movers.every(n=>n.droppedOnce&&n.waiting));");
+s=s.replaceAll("assert.equal(s().m.cargo.filter(x=>x.state==='delivered').length,6);", "assert.equal(s().m.cargo.filter(x=>x.state==='delivered').length,4);");
+s=s.replace("assert.equal(h.movingCount(),9);h.tick(3);", "h.tick(1.2);assert.equal(h.movingCount(),9);h.tick(3);");
+s=s.replace("assert(s().finished);assert($('#overlay').innerHTML.includes('gallery'));assert($('#overlay').innerHTML.includes('Feliz cumpleaños'));", "assert(s().finished);assert.equal(s().mode,'party');h.renderParty();h.tick(8.2);assert.equal(s().mode,'memories');assert($('#overlay').innerHTML.includes('gallery'));assert.equal(window.RECUERDOS.length,9);assert.equal(window.RECUERDOS.at(-1).src,'assets/recuerdos/foto-final.jpg');h.changePhoto(8);assert.equal(window.arcadeSnapshot().photoIndex,8);h.showLetter();assert.equal($('#letter').textContent,window.FELICITACION);h.tick(120);assert.equal(s().mode,'letter');assert.equal($('#letter').textContent,window.FELICITACION);");
+s=s.replace('seis traslados NPC;', 'seis traslados NPC, dos tropiezos y final posterior a Indira;').replace('tarta y final.', 'tarta, fiesta con cuatro amigos, nueve fotos y carta sin caducidad.');fs.writeFileSync(p,s);

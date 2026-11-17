@@ -1,0 +1,18 @@
+Audio original de Operación: Sobrevivimos de Milagro
+
+Ámbito: audio.js, sus secuencias musicales originales y los efectos sintetizados
+por ese módulo. Dedicación CC0 1.0 Universal, en la medida en que existan derechos
+de autor o derechos relacionados sobre esas aportaciones.
+https://creativecommons.org/publicdomain/zero/1.0/legalcode.es
+SPDX-License-Identifier: CC0-1.0
+
+Las piezas son instrumentales generativas: comedia corporativa/jazz retro,
+persecución caricaturesca, mudanza cómica, arcade, fanfarria de rescate,
+pastelería festiva y piano sintetizado de recuerdos y felicitación.
+No se incorporan grabaciones, samples, melodías ni pistas de bibliotecas ajenas.
+La dedicación se limita al módulo de audio y sus sonidos; las fotografías
+y los demás recursos conservan su régimen propio.
+
+Recursos de audio externos necesarios: ninguno.
+El audio se genera con Web Audio API después de una interacción de la jugadora.
+No hay archivos MP3/OGG/WAV pendientes ni descargas durante la partida.

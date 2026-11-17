@@ -1,0 +1,48 @@
+const fs=require('fs'),path=require('path'),vm=require('vm');const root=path.resolve(__dirname,'..'),file=path.join(root,'juego/app.js');let code=fs.readFileSync(file,'utf8');
+function replace(a,b){if(!code.includes(a))throw Error('No encontrado: '+a.slice(0,100));code=code.replace(a,b);}
+function fn(name,next,body){const a=code.indexOf(`function ${name}(`),b=code.indexOf(`function ${next}(`,a);if(a<0||b<0)throw Error(name);code=code.slice(0,a)+body+'\n'+code.slice(b);}
+code=code.replaceAll('indira-arcade-v4','indira-arcade-v5').replaceAll('version:4','version:5').replaceAll('s?.version===4','s?.version===5').replaceAll('Mariam','Marian');
+code=code.replace(/const palettes=\{[^\n]+\};/,"const palettes={Indira:['#ec1437','#704438'],José:['#204bd9','#3c4540'],Marian:['#e9b7d0','#dcb76f'],Operaciones:['#204bd9','#3c4540'],Recaudación:['#ec1437','#3c4540'],Mohamed:['#a28eaa','#4a4140']};");
+replace('rescueTime=0,introTime=0;', 'rescueTime=0,introTime=0,pendingLevel=0,chatTime=0;');
+replace('},{carrying:false,boxes:0},{cards:', '},freshMovingModel(),{cards:');
+replace('mailElapsed,rescueTime,introTime}', 'mailElapsed,rescueTime,introTime,pendingLevel,chatTime}');
+replace("function portrait(name){", "function portrait(name){if(name==='Marian')return marianPortrait();");
+replace("function person(x,y,name,walking=false){", "function person(x,y,name,walking=false){if(name==='Marian'){drawMarianSprite(x,y,walking);return;}");
+replace("function say(who,text,important=false){", "function say(who,text,important=false){if(level===1&&mode==='play'&&who==='Mohamed'){worldSpeech('mohamed',who,text,'mohamed-'+text);return;}");
+replace("function speechActor(actor){", "function speechActor(actor){if(actor==='mohamed')return mohamed();");
+replace("if(level===0&&worldSpeechPending())", "if((level===0||level===1)&&worldSpeechPending())");
+replace("level=i;t=resume?", "level=i;$('#arena').classList.toggle('sweet-scene',i===4);t=resume?");
+replace("else if(restored.mode==='mail'){", "else if(restored.mode==='mission')openMission(restored.pendingLevel||0);else if(restored.mode==='chat')openRoboChat(restored.chatTime||0);else if(restored.mode==='mail'){");
+replace("}else if(mode==='mail'){renderMail();", "}else if(mode==='mission'){renderMission();$('#overlay').hidden=false;}else if(mode==='chat'){renderRoboChat();$('#overlay').hidden=false;}else if(mode==='mail'){renderMail();");
+fn('renderMail','updateMail', 'function renderMail(){renderCorporateMail();}');
+fn('renderInitialMail','worldSpeech', 'function renderInitialMail(){renderCorporateMail();}');
+replace("else if(level===2)openMail(4);", "else if(level===2)openRoboChat();");
+replace("if(rescueTime>=12){loadLevel(4);", "if(rescueTime>=12){openMission(4);");
+replace("José prepara una sorpresa de cumpleaños para Indira.", "José y Marian preparan una sorpresa de cumpleaños para Indira.");
+replace("if(level===2){value=m.boxes;label=value===3?'Mudanza lista':`Caja ${value+1}: ${boxes[value].label}`;}", "if(level===2){max=9;value=movingCount();label=`Mudanza: ${value}/9 · Tus cajas: ${m.boxes}/3`;}");
+let a=code.indexOf(' if(level===2&&m.boxes<3){'),b=code.indexOf(' if(level===4&&',a);if(a<0||b<0)throw Error('actMoving');code=code.slice(0,a)+' if(level===2)actMoving();\n'+code.slice(b);
+replace("function assist(){if(level===0)return;", "function assist(){if(level===0||level===2)return;");
+replace("if(level===1)updateMarian(dt);", "if(level===0)updateCredit(dt);if(level===1)updateMarian(dt);");
+a=code.indexOf('  if(level===2){for(let i=0;');b=code.indexOf('  if(level===3)',a);if(a<0||b<0)throw Error('updateMoving');code=code.slice(0,a)+'  if(level===2)updateMoving(dt);\n'+code.slice(b);
+replace("hit=1;burst(player.x", "hit=1;if(level===2)dropCarriedBox();burst(player.x");
+replace('La caja está bien. Mi paciencia, menos.', '¡Cuidado con los carritos!');
+const focusA=code.indexOf('if(level===2)return {...(m.carrying?boxes'),focusB=code.indexOf('if(level===3)return',focusA);if(focusA<0||focusB<0)throw Error('focusMoving');code=code.slice(0,focusA)+"if(level===2)return {...(m.carrying?movingDestination('Indira'):m.cargo.find(c=>c.owner==='Indira'&&c.state==='waiting')||movingDestination('Indira')),label:m.carrying?'ENTREGA':'TUS CAJAS'};"+code.slice(focusB);
+const guideA=code.indexOf(' if(level===2){const b=boxes',code.indexOf('function guide(){')),guideB=code.indexOf(' if(goal.x<',guideA);if(guideA<0||guideB<0)throw Error('guideMoving');code=code.slice(0,guideA)+' if(level===2)guideMoving();\n'+code.slice(guideB);
+const renderStart=code.indexOf('function render(){');a=code.indexOf(' if(level===2){',renderStart);b=code.indexOf(' if(level===3)',a);if(a<0||b<0)throw Error('drawMoving');code=code.slice(0,a)+' if(level===2)drawMoving();\n'+code.slice(b);
+a=code.indexOf(' if(level===4){',code.indexOf('function render(){'));b=code.indexOf(' if(level===1)drawMarianChase()',a);if(a<0||b<0)throw Error('drawBakery');code=code.slice(0,a)+' if(level===4)drawBakery();\n'+code.slice(b);
+replace("guide();person(jose.x,jose.y,", "guide();if(level!==2)person(jose.x,jose.y,");
+const creditA=code.indexOf('old.forEach(node=>node.remove());if(level===0){const names='),creditB=code.indexOf('function brightOfficeDestination',creditA);if(creditA<0||creditB<0)throw Error('credit');code=code.slice(0,creditA)+'old.forEach(node=>node.remove());if(level===0)renderCredit();}\n'+code.slice(creditB);
+replace("while(m.speeches.length<(canvas.getBoundingClientRect().height<500?1:2)&&m.speechQueue.length){const entry=m.speechQueue.shift();m.speeches.push({...entry,remaining:entry.duration});}", "while(m.speeches.length<(canvas.getBoundingClientRect().height<500?1:2)&&m.speechQueue.length){const index=m.speechQueue.findIndex(q=>!m.speeches.some(s=>s.actor===q.actor));if(index<0)break;const entry=m.speechQueue.splice(index,1)[0];m.speeches.push({...entry,remaining:entry.duration});}");
+replace("for(let i=0;i<boarded;i++)circle(x-40+i*24,y-48,8,'#d2a17e');", "for(let i=0;i<boarded;i++){circle(x-40+i*24,y-49,10,['#704438','#3c4540','#dcb76f'][i]);circle(x-40+i*24,y-46,7,'#d2a17e');}");
+code=code.replaceAll('PASTELERÍA DE INDIRA','DULCE COMBINACIÓN');
+const cakeA=code.indexOf('function drawCake(){'),cakeB=code.indexOf('function render(){',cakeA);let cakeCode=code.slice(cakeA,cakeB);for(const [x,y]of Object.entries({'#9d7961':'#eeafd0','#fff4d9':'#ffffff','#f5e7ce':'#ffe5f1','#fff3d8':'#fff7fb','#8fb8b0':'#e38db6'}))cakeCode=cakeCode.replaceAll(x,y);code=code.slice(0,cakeA)+cakeCode+code.slice(cakeB);
+const extension=fs.readFileSync(path.join(__dirname,'extension-integracion.js'),'utf8');replace('function frame(now){',extension+'\nfunction frame(now){');
+replace("else if(mode==='mail')updateMail(dt);", "else if(mode==='mail')updateMail(dt);else if(mode==='mission')storyClock+=dt;else if(mode==='chat')updateChat(dt);");
+replace('rescueTime,introTime,rescueBoarded:', 'rescueTime,introTime,pendingLevel,chatTime,rescueBoarded:');
+fs.writeFileSync(file,code);
+// Correos: solo contexto, sin misión ni comentarios externos.
+const mailFile=path.join(root,'juego/correos.js'),context={window:{}};vm.runInNewContext(fs.readFileSync(mailFile,'utf8'),context);const original=context.window.CORREOS;
+const mails=[{from:'MOHAMED',role:'Accionista',subject:original[0].subject,body:original[0].body,bold:['Ebrain Pablo Ceboya Escobar'],level:0},{from:'BANCO ALIADO',role:'Relaciones comerciales',subject:'Cancelación de la alianza comercial',body:original[1].body,next:2},{from:'ADMINISTRACIÓN',role:'Administración y recaudación',subject:'Alerta de recaudación',body:'Indira, hemos revisado los movimientos de la cuenta y confirmado que Mohamed se ha llevado todo el dinero de la recaudación',level:1},{from:'MOHAMED',role:'Accionista',subject:'Sinergia corporativa',body:'Estimados colaboradores: como parte de la recuperación económica de la empresa, nos mudaremos a las oficinas de nuestra competencia, Robo Pago. Compartir instalaciones fortalecerá nuestras oportunidades. Indira... no tienes 1000 de la recaudación de hoy que me des?',bold:['Robo Pago'],level:2}];fs.writeFileSync(mailFile,'// Contextos del correo corporativo. Las misiones viven en transiciones.js.\nwindow.CORREOS='+JSON.stringify(mails,null,2)+';\n');
+const htmlFile=path.join(root,'juego/index.html');fs.writeFileSync(htmlFile,fs.readFileSync(htmlFile,'utf8').replace('<script src="app.js"></script>','<script src="transiciones.js"></script><script src="app.js"></script>'));
+const dialogFile=path.join(root,'juego/dialogos.js');fs.writeFileSync(dialogFile,fs.readFileSync(dialogFile,'utf8').replaceAll('Mariam','Marian').replace('Tres cajas. Las importantes van conmigo.','Nueve cajas: tres por persona. Las mías van conmigo.'));
+const levelsFile=path.join(root,'juego/niveles.js');fs.writeFileSync(levelsFile,fs.readFileSync(levelsFile,'utf8').replace("goal:'Tres cajas y nos vamos',tip:'Recoge la caja marcada y llévala al destino iluminado.'", "goal:'Nueve cajas · tres por persona',tip:'Lleva tus tres cajas. José y Marian trasladan las otras seis.'").replace("name:'Pastelería y cumpleaños'", "name:'Dulce Combinación'").replace("color:'#fff6f7'", "color:'#fff3f8'"));

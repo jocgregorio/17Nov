@@ -1,0 +1,41 @@
+const {chromium}=require('C:/Users/Jose G/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const path=require('path'),assert=require('assert');
+(async()=>{
+const browser=await chromium.launch({headless:true,channel:'chrome',env:{...process.env,TEMP:__dirname,TMP:__dirname}});
+const page=await browser.newPage({viewport:{width:1280,height:950}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const url='file:///'+path.resolve(__dirname,'../juego/index.html').replaceAll('\\','/');
+await page.addInitScript(()=>{const s=sessionStorage.getItem('verification-seed');if(s){localStorage.setItem('indira-arcade-v2',s);sessionStorage.removeItem('verification-seed');}});
+await page.goto(url);await page.clock.install();
+async function seed(level,t,m,player={x:380,y:360}){await page.evaluate(s=>sessionStorage.setItem('verification-seed',JSON.stringify(s)),{version:2,level,t,score:0,unlocked:level,m,player,jose:{x:340,y:390},finished:false});await page.reload();await page.locator('#resume').click();await page.clock.runFor(100);}
+const snap=()=>page.evaluate(()=>arcadeSnapshot());
+async function press(key,time=100){await page.keyboard.down(key);await page.clock.runFor(time);await page.keyboard.up(key);}
+await seed(0,10,{phase:0,deliveries:0,combo:0},{x:150,y:235});await press('Space');assert.equal((await snap()).m.phase,1);
+const x=(await snap()).player.x;await press('ArrowRight',500);assert((await snap()).player.x>x+60);
+await page.locator('#pause').click();const paused=(await snap()).t;await page.clock.runFor(3000);assert.equal((await snap()).t,paused);await page.locator('#return').click();
+await page.reload();assert(await page.locator('#resume').count());await page.locator('#resume').click();assert((await snap()).m.phase===1);
+await seed(0,74.6,{phase:0,deliveries:2,combo:2});await page.clock.runFor(700);assert.equal((await snap()).level,1);
+await seed(1,51,{caught:false,furthest:2500},{x:2550,y:325});await press('Space');await page.clock.runFor(3000);assert((await snap()).m.caught);
+await seed(1,59.6,{caught:true,furthest:2500});await page.clock.runFor(700);assert.equal((await snap()).level,2);
+await seed(2,10,{carrying:false,boxes:0},{x:130,y:300});await press('Space');assert((await snap()).m.carrying);
+await seed(2,10,{carrying:true,boxes:0},{x:670,y:310});await press('Space');assert.equal((await snap()).m.boxes,1);
+await seed(2,59.6,{carrying:false,boxes:0});await page.clock.runFor(700);assert.equal((await snap()).level,3);
+await seed(3,5,{cards:[],escaped:false},{x:304,y:184});await page.clock.runFor(200);assert((await snap()).m.cards.includes(0));
+await seed(3,5,{cards:[0],escaped:false},{x:640,y:472});await page.clock.runFor(200);assert.equal((await snap()).m.cards.length,2);
+await seed(3,5,{cards:[0,1],escaped:false},{x:688,y:184});await page.clock.runFor(200);assert((await snap()).m.escaped);
+await seed(3,74.6,{cards:[],escaped:false});await page.clock.runFor(700);assert.equal((await snap()).level,4);
+await seed(4,10,{carrying:false,decor:0,memories:0},{x:145,y:205});await press('Space');assert((await snap()).m.carrying);
+await seed(4,10,{carrying:true,decor:0,memories:0},{x:430,y:340});await press('Space');assert.equal((await snap()).m.decor,1);assert(!(await page.locator('#memory').isHidden()));
+await seed(4,89.6,{carrying:false,decor:4,memories:0});await page.clock.runFor(700);assert((await snap()).finished);assert(await page.locator('#letter').count());
+assert(await page.locator('#gallery img').evaluateAll(imgs=>imgs.every(i=>i.complete&&i.naturalWidth>0)));
+await page.screenshot({path:path.resolve(__dirname,'arcade-final.png'),fullPage:true});
+await page.reload();await page.locator('#remember').click();await page.clock.runFor(150);assert(await page.locator('#letter').count());
+await seed(3,47,{cards:[0],escaped:false},{x:304,y:184});await page.screenshot({path:path.resolve(__dirname,'arcade-laberinto.png'),fullPage:true});
+await seed(4,67,{carrying:false,decor:5,memories:0},{x:430,y:380});await page.screenshot({path:path.resolve(__dirname,'arcade-tarta.png'),fullPage:true});
+await seed(0,16,{phase:0,deliveries:0,combo:0});await page.screenshot({path:path.resolve(__dirname,'arcade-escritorio.png'),fullPage:true});
+await page.setViewportSize({width:390,height:844});await page.clock.runFor(100);assert(!(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)));
+const bounds=await page.locator('#stick').boundingBox();const startX=(await snap()).player.x;
+await page.mouse.move(bounds.x+bounds.width/2,bounds.y+bounds.height/2);await page.mouse.down();await page.mouse.move(bounds.x+bounds.width-5,bounds.y+bounds.height/2);await page.clock.runFor(600);await page.mouse.up();assert((await snap()).player.x>startX+40);
+await page.screenshot({path:path.resolve(__dirname,'arcade-movil.png'),fullPage:true});
+assert.deepEqual(errors,[]);console.log('OK: movimiento, joystick, pausa, persistencia, operaciones, persecución, cajas, tarjetas, escape, tarta, fotos y cinco transiciones.');
+await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});
