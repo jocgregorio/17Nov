@@ -2,7 +2,7 @@
 window.INICIO={
  preamble:[
  'Hoy es 17 de noviembre. José y Marian tienen una misión muy especial: organizar una celebración sorpresa para la mejor jefa del mundo mundial.',
- 'El plan era sencillo: preparar una tarta, reunir a los amigos y pasar un día maravilloso.',
+ 'El plan era sencillo: preparar una torta, reunir a los amigos y pasar un día maravilloso.',
  'Pero hay un pequeño problema...',
  'Mohamed sigue siendo accionista de la empresa. Y cada vez que tiene una idea, alguien termina necesitando vacaciones'
  ],

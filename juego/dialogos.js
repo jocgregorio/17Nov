@@ -5,7 +5,7 @@ window.ARCADE_TEXT={
       [
         0.2,
         "José",
-        "Operación: La tarta de Indira. Hoy sobrevivimos a la oficina y le preparamos su sorpresa."
+        "Operación: La torta de Indira. Hoy sobrevivimos a la oficina y le preparamos su sorpresa."
       ],
       [
         17,
@@ -53,7 +53,7 @@ window.ARCADE_TEXT={
       [
         0.3,
         "José",
-        "Julito nos salvó. ¡Ahora sí, tu tarta de cumpleaños!"
+        "Julito nos salvó. ¡Ahora sí, tu torta de cumpleaños!"
       ],
       [
         9,
