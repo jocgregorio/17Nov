@@ -168,6 +168,10 @@ body:has(#arena.epilogue) #sound-toggle{background:#ffffff;color:#a44b7c;border-
 
 /* v0.8: filas estables, sin márgenes ficticios ni cambios al hablar. */
 #game-version{position:fixed;right:8px;bottom:3px;z-index:100;color:#fff;background:#173baf;padding:3px 7px;border-radius:5px;font:600 11px system-ui;pointer-events:none}
+#arena #bubble.notice-message{background:#ed1238;color:white}
+#arena #bubble.notice-message strong,#arena #bubble.notice-message p{color:white}
+#transition-status{position:absolute;bottom:5px;left:8px;right:8px;z-index:7;border-radius:8px;padding:8px;background:#fffdf8;color:#173baf;font:600 12px system-ui;text-align:center;pointer-events:none;border-bottom:3px solid #ed1238;animation:transition-pulse 1.5s ease-in-out infinite}
+@keyframes transition-pulse{50%{border-bottom-color:#173baf}}
 #arena.normal-play{height:calc(100dvh - 115px);max-height:900px;min-height:360px}
 #arena.normal-play #hud{position:relative;inset:auto;margin:6px;order:-3;flex:none;max-height:none}
 #arena.normal-play #debt-meter{position:relative;inset:auto;order:-2;flex:none;margin:0 8px 5px;width:calc(100% - 16px);padding:4px 8px}
