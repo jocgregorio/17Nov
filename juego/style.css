@@ -142,3 +142,26 @@ button:disabled{cursor:default;opacity:.45}
 body:has(#arena.epilogue) #sound-toggle{background:#ffffff;color:#a44b7c;border-color:#e7bfd4}
 @media(max-width:650px){header{gap:9px}#sound-toggle{width:42px;height:44px;font-size:18px}#level-name{font-size:8px;letter-spacing:.6px}}
 @media(max-height:520px) and (min-aspect-ratio:13/10){header{height:44px;gap:8px}canvas{height:calc(100dvh - 114px)}#arena.office-bubbles canvas,#arena.party-scene canvas{height:calc(100dvh - 66px)}#sound-toggle{width:42px;height:44px;min-height:44px}}
+/* Movimiento directo sobre el escenario, sin joystick virtual. */
+#touch{justify-content:flex-end}#game,#action{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.movement-help{font-size:13px;line-height:1.6;color:#e9efff;background:#ffffff0d;border-left:3px solid #ffffff77;border-radius:5px;padding:10px 13px;margin:0 0 18px}
+#arena.bakery-controls.touch-controls #touch{justify-content:center}
+#arena.bakery-controls.touch-controls #action{width:230px;max-width:80%;height:auto;min-height:64px;padding:12px 18px;font-size:15px;border-radius:15px;line-height:1.25;flex-shrink:0}
+#arena.bakery-controls.touch-controls #action span{font-size:10px;margin-top:5px}
+#arena.bakery-controls.touch-controls #mission{bottom:200px}
+#action.cake-ready{animation:cake-action-pulse 2.2s ease-in-out infinite}
+@keyframes cake-action-pulse{0%,100%{box-shadow:0 5px 0 #8c315f,0 0 0 0 #fbd1e766}50%{box-shadow:0 5px 0 #8c315f,0 0 0 7px #fbd1e72b}}
+@media(max-width:650px){.movement-help{font-size:12px;padding:9px 11px;margin-bottom:15px}}
+@media(max-height:520px) and (min-aspect-ratio:13/10){.movement-help{font-size:11px;padding:7px 10px;margin-bottom:12px}#arena.bakery-controls.touch-controls #action{width:210px;min-height:48px;padding:8px 15px;font-size:12px}#arena.bakery-controls.touch-controls #action span{font-size:9px;margin-top:3px}#arena.bakery-controls.touch-controls #mission{left:14px!important;transform:none;bottom:56px;width:145px;max-width:23%!important}}
+@media(prefers-reduced-motion:reduce){#action.cake-ready{animation:none}}
+
+/* Un solo diálogo legible; los avisos esperan su turno y no capturan pulsaciones. */
+#world-dialogues .world-speech{box-sizing:border-box;padding:9px 12px;border-radius:12px;pointer-events:none}
+#world-dialogues .world-speech p{font-size:14px;line-height:1.45;margin:4px 0 0}
+#world-dialogues .world-speech strong{font-size:11px;line-height:1.2}
+#world-dialogues .world-speech[hidden]{display:none}
+#banner{box-sizing:border-box;right:auto;bottom:auto;max-width:none;font-size:13px;line-height:1.35;padding:8px 11px;border-radius:9px;pointer-events:none;box-shadow:0 3px 10px #172e6422}
+#banner small{font-size:12px;line-height:1.4;margin-top:3px}
+#banner[data-kind="confirmation"]{background:#fffdf8;color:#173baf;border:1px solid #173baf;border-left:4px solid #ed1238;font-weight:700}
+#banner[data-kind="confirmation"] small{color:#34476f;font-weight:400}
+#speech-tethers line{opacity:.55;stroke-width:1.5}

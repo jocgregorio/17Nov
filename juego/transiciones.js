@@ -4,7 +4,7 @@ window.MISIONES=[
  {title:'Que Mohamed dé la cara',steps:['Persigue a Mohamed y esquiva las sillas.','ACTUAR da un impulso; de cerca, lo captura.','Marian se incorporará al grupo por una puerta lateral.'],cake:'La crema ya está a salvo. José rescatará el chocolate para la tarta.'},
  {title:'Mudanza a Robo Pago',steps:['Hay nueve cajas: José lleva tres y Marian otras tres automáticamente.','Tú llevas las tres cajas marcadas INDIRA al destino iluminado.','Si chocas con un carrito mientras cargas, tu caja vuelve a recogida.'],cake:'La caja de fresas viaja con el equipo. Que la mudanza no arruine la sorpresa.'},
  {title:'Pac-Focas · ¡A la salida!',steps:['Recoge las dos identificaciones y evita a las focas zombis.','Si te tocan, vuelves al inicio conservando las ID.','Con dos ID, acércate a la puerta: Julito espera con el coche para rescatar a Indira, José y Marian.'],cake:'Solo faltan las velas. Después de la huida nos espera Dulce Combinación.'},
- {title:'Dulce Combinación',steps:['Acércate a la tarta y mantén ACTUAR para extender la cobertura.','Pulsa tres veces para colocar la decoración.','Añade las velas con ACTUAR y descubre la felicitación.'],cake:'¡Rescatamos todos los ingredientes! Esta tarta y estos recuerdos son para ti, Indira.'}
+ {title:'Dulce Combinación',steps:['Acérquese a la tarta y pulse DECORAR TARTA para prepararla. Mantén pulsado el botón para extender la cobertura.','Pulsa tres veces para colocar la decoración.','Añade las velas con DECORAR TARTA y descubre la felicitación.'],cake:'¡Rescatamos todos los ingredientes! Esta tarta y estos recuerdos son para ti, Indira.'}
 ];
 window.ROBO_CHAT=[
  ['Marian','no les parece raro que esta gente aplauda las malas decisiones de los directores? parecen focas'],
