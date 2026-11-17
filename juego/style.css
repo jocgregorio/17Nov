@@ -166,6 +166,21 @@ body:has(#arena.epilogue) #sound-toggle{background:#ffffff;color:#a44b7c;border-
 #banner[data-kind="confirmation"] small{color:#34476f;font-weight:400}
 #speech-tethers line{opacity:.55;stroke-width:1.5}
 
+/* v0.8: filas estables, sin márgenes ficticios ni cambios al hablar. */
+#game-version{position:fixed;right:8px;bottom:3px;z-index:100;color:#fff;background:#173baf;padding:3px 7px;border-radius:5px;font:600 11px system-ui;pointer-events:none}
+#arena.normal-play{height:calc(100dvh - 115px);max-height:900px;min-height:360px}
+#arena.normal-play #hud{position:relative;inset:auto;margin:6px;order:-3;flex:none;max-height:none}
+#arena.normal-play #debt-meter{position:relative;inset:auto;order:-2;flex:none;margin:0 8px 5px;width:calc(100% - 16px);padding:4px 8px}
+#arena.normal-play #debt-meter strong{display:inline;font-size:9px}
+#arena.normal-play #debt-meter span{display:inline;margin-left:10px;font-size:11px}
+#arena.normal-play #dialogue-dock:not([hidden]){display:block!important;order:-1;position:relative;margin:0!important;height:142px!important;min-height:142px;flex:0 0 142px;background:#fffdf8;border-bottom:1px solid #204bd9;overflow:auto}
+#arena.normal-play #bubble{padding:9px 12px;align-items:flex-start}
+#arena.normal-play #bubble p{font-size:14px;line-height:1.4}
+#arena.normal-play #game{height:0!important;min-height:0!important;max-height:none!important;flex:1 1 0;width:100%;aspect-ratio:auto}
+#arena.normal-play.sweet-scene #mission,#arena.bakery-controls.touch-controls #mission{left:50%!important;transform:translateX(-50%);top:auto!important;bottom:86px!important;width:180px;max-width:65%!important}
+#arena.normal-play.sweet-scene #touch{bottom:14px!important;justify-content:center}
+@media(max-height:520px) and (min-aspect-ratio:13/10){#arena.normal-play{height:calc(100dvh - 70px);min-height:240px}#arena.normal-play #dialogue-dock:not([hidden]){height:100px!important;min-height:100px;flex-basis:100px}#arena.normal-play.sweet-scene #mission{bottom:70px!important}}
+
 /* Diálogo fuera del escenario: el documento reserva su altura real. */
 #arena{display:flex;flex-direction:column}
 #arena #dialogue-dock{order:-1;position:relative;height:auto;min-height:0;flex:none;background:#fffdf8}
